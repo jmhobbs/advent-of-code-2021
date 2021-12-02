@@ -1,0 +1,12 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/rust:1.50.0
+    steps:
+      - checkout
+      - run: cargo --version
+      - run:
+          name: Run Tests
+          command: find . -maxdepth 1 -type d -name '[0-9]*' -exec sh -c 'cd {} && cargo test' \;
