@@ -8,3 +8,7 @@ edition = "2018"
 [[bin]]
 name = "problem_01"
 path = "01/main.rs"
+
+[[bin]]
+name = "problem_02"
+path = "02/main.rs"
