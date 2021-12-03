@@ -1,4 +1,4 @@
-use std::fs;
+use utils::read_input;
 
 enum Direction {
   Up,
@@ -85,16 +85,8 @@ mod tests {
 }
 
 fn main() {
-  let contents = fs::read_to_string("input.txt")
-      .expect("Something went wrong reading the input file");
-
-  let mut instructions: Vec<Instruction> = Vec::new();
-
-  for line in contents.split("\n") {
-    if line != "" {
-      instructions.push(string_to_instruction(line.to_string()))
-    }
-  }
+  let lines = read_input();
+  let instructions: Vec<Instruction> = lines.iter().map(|line| string_to_instruction((&line).to_string())).collect();
 
   let result_a = navigate(&instructions);
   print!("A: {}\n", result_a.0 * result_a.1);

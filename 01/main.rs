@@ -1,4 +1,4 @@
-use std::fs;
+use utils::read_input;
 
 pub fn count_increases(samples:&Vec<i16>) -> u16 { 
   let mut last: i16 = samples[0];
@@ -55,16 +55,8 @@ mod tests {
 }
 
 fn main() {
-  let contents = fs::read_to_string("input.txt")
-      .expect("Something went wrong reading the input file");
-
-  let mut samples : Vec<i16> = Vec::new();
-
-  for line in contents.split("\n") {
-    if line != "" {
-      samples.push(line.parse::<i16>().unwrap());
-    }
-  }
+  let lines = read_input();
+  let samples : Vec<i16> = lines.iter().map(|line| line.parse::<i16>().unwrap()).collect();
 
   print!("A: {}\n", count_increases(&samples));
   print!("B: {}\n", count_increases(&sliding_window(&samples)));
