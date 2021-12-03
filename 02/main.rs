@@ -38,6 +38,28 @@ fn navigate(instructions:&Vec<Instruction>) -> (i32, i32) {
   return (x, z);
 }
 
+fn navigate_b(instructions:&Vec<Instruction>) -> (i32, i32) {
+  let mut x: i32 = 0;
+  let mut z: i32 = 0;
+  let mut aim: i32 = 0;
+
+  for instruction in instructions {
+    match instruction.0 {
+      Direction::Forward => {
+        x = x + instruction.1;
+        z = z + (instruction.1 * aim);
+      },
+      Direction::Up => aim = aim - instruction.1,
+      Direction::Down => aim = aim + instruction.1,
+      Direction::Invalid => print!("Invalid Direction"),
+    };
+  }
+
+  return (x, z);
+}
+
+
+
 #[cfg(test)]
 mod tests {
   use super::*;
@@ -54,6 +76,12 @@ mod tests {
     let instructions: Vec<Instruction> = vec![Instruction(Direction::Forward, 5), Instruction(Direction::Down, 5), Instruction(Direction::Forward, 8), Instruction(Direction::Up, 3), Instruction(Direction::Down, 8), Instruction(Direction::Forward, 2)];
     assert_eq!(navigate(&instructions), (15, 10));
   }
+
+  #[test]
+  fn test_example_b() {
+    let instructions: Vec<Instruction> = vec![Instruction(Direction::Forward, 5), Instruction(Direction::Down, 5), Instruction(Direction::Forward, 8), Instruction(Direction::Up, 3), Instruction(Direction::Down, 8), Instruction(Direction::Forward, 2)];
+    assert_eq!(navigate_b(&instructions), (15, 60));
+  }
 }
 
 fn main() {
@@ -68,7 +96,9 @@ fn main() {
     }
   }
 
-  let result = navigate(&instructions);
+  let result_a = navigate(&instructions);
+  print!("A: {}\n", result_a.0 * result_a.1);
 
-  print!("A: {}\n", result.0 * result.1);
+  let result_b = navigate_b(&instructions);
+  print!("B: {}\n", result_b.0 * result_b.1);
 }
